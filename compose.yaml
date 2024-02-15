@@ -5,3 +5,14 @@ services:
     ports:
       - "1812-1813:1812-1813/udp"
     command: -X
+
+  postgres:
+    image: postgres:16.1
+    environment:
+      POSTGRES_PASSWORD: dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./config/postgresql/pg_hba.conf:/pg_hba.conf:ro
+      - ./config/postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    command: postgres -c hba_file=/pg_hba.conf
