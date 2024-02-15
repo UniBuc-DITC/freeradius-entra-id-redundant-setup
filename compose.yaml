@@ -1,0 +1,7 @@
+services:
+  freeradius:
+    image: freeradius-entra-id
+    build: .
+    ports:
+      - "1812-1813:1812-1813/udp"
+    command: -X
