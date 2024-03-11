@@ -1,7 +1,25 @@
 services:
   freeradius:
+    depends_on:
+      - postgres
+      - redis
     image: freeradius-entra-id
     build: .
     ports:
       - "1812-1813:1812-1813/udp"
-    command: -X
+    command: freeradius -X
+
+  postgres:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: freeradius
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - ./config/postgresql/create-database.sh:/docker-entrypoint-initdb.d/create-database.sh:ro
+
+  redis:
+    image: redis:7.2
+    ports:
+      - "6379:6379"

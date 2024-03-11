@@ -8,6 +8,8 @@ This repository documents how to allow [RADIUS](https://en.wikipedia.org/wiki/RA
 
 - [FreeRADIUS](https://freeradius.org/) as a RADIUS server (with the [FreeRADIUS Docker image](https://hub.docker.com/r/freeradius/freeradius-server) used as base);
 
+- [PostgreSQL](https://www.postgresql.org/) database for automatically [locking out users](https://wiki.freeradius.org/guide/lockout) after a series of failed attempts;
+
 - [Redis](https://redis.io/) for caching credentials (in the form of salted, secure hashes);
 
 - [`freeradius-oauth2-perl`](https://github.com/jimdigriz/freeradius-oauth2-perl/tree/master) module for authenticating users against a Microsoft Entra ID tenant;

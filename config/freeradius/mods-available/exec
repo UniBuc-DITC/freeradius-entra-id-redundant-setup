@@ -1,0 +1,8 @@
+# TODO: get rid of this workaround once https://github.com/FreeRADIUS/freeradius-server/issues/5304 gets fixed
+
+exec {
+	wait = yes
+	input_pairs = request
+	shell_escape = no
+	timeout = 10
+}
