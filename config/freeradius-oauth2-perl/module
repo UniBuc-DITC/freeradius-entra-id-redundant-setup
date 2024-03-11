@@ -14,6 +14,9 @@ cache oauth2_cache {
 
 	ttl = 864000	# 10 days
 
+	# Use Redis instead of `rlm_cache_rbtree`
+	driver = "rlm_cache_redis"
+
 	redis {
 		server = 'redis'
 		port = 6379
