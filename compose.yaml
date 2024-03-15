@@ -1,5 +1,5 @@
 services:
-  freeradius:
+  freeradius1:
     depends_on:
       postgres:
         condition: service_healthy
@@ -9,6 +9,17 @@ services:
     build: .
     ports:
       - "1812-1813:1812-1813/udp"
+    command: freeradius -X
+
+  freeradius2:
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    image: freeradius-entra-id
+    ports:
+      - "2812-2813:1812-1813/udp"
     command: freeradius -X
 
   postgres:

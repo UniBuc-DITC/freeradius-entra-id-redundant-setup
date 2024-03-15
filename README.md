@@ -205,6 +205,14 @@ The configuration described here also adds support for **account lockout** based
     (3) pap: User authenticated successfully
     ```
 
+### Set up multiple FreeRADIUS instances for redundancy
+
+Most Network Access Servers (RADIUS clients) can be configured to send their requests to multiple IP addresses / RADIUS servers. This allows for redundancy in case either one of the instances fails.
+
+Furthermore, Redis has support for data persistency and it saves regular snapshots of its contents by default. More information can be found [in the Redis documentation](https://redis.io/docs/management/persistence/).
+
+The [`compose.yaml`](compose.yaml) file exemplifies the creation of a cluster of two FreeRADIUS instances, both sharing the same database and password cache. Either one can be the target of a RADIUS authentication request.
+
 ## Contributing
 
 See the [contributing instructions](CONTRIBUTING.md) for information on how to set up your local development environment to work on this repo.
