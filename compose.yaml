@@ -21,7 +21,9 @@ services:
     # Check that PostgreSQL is up before considering container to be ready.
     # Based on https://github.com/peter-evans/docker-compose-healthcheck
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      # Explicitly set username and database to avoid errors
+      # Based on https://github.com/peter-evans/docker-compose-healthcheck/issues/16#issuecomment-1073039761
+      test: ["CMD-SHELL", "pg_isready -U freeradius -d freeradius"]
       interval: 5s
       timeout: 5s
       retries: 3
