@@ -14,6 +14,6 @@ insert_final_newline = true
 # Remove useless whitespace at the end of lines
 trim_trailing_whitespace = true
 
-[*.yaml]
+[*.{yaml,md}]
 indent_style = space
 indent_size = 2
