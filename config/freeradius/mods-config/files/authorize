@@ -1,2 +1,2 @@
 # Test user with hardcoded password.
-user    Cleartext-Password := "test"
+user    Cleartext-Password := "pass"

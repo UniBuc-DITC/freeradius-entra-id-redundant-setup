@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-# Stop on errors.
+# Stop on errors
 set -e
 
-# Test the RADIUS authentication.
-radtest user test localhost 0 testing123
+USERNAME="${1:-user}"
+PASSWORD="${2:-pass}"
+
+# Try to authenticate against the local FreeRADIUS instance
+radtest $USERNAME $PASSWORD localhost 0 testing123
