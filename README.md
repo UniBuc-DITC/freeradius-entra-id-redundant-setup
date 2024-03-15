@@ -128,11 +128,34 @@ The configuration described here also adds support for **account lockout** based
 
    The default lockout policy is configured to block all login attempts (even ones with correct credentials) after 5 failed attempts in the last 10 minutes. This is done to discourage brute force / password guessing attacks.
 
+9. Verify that the newly configured lockout policy works as expected. Try to connect once with valid credentials:
+
+   ```sh
+   ./test-connection.sh user@tenant.onmicrosoft.com <password>
+   ```
+
+   Then at least 5 times using the wrong password:
+
+   ```sh
+   for i in {1..5}
+   do
+     ./test-connection.sh user@tenant.onmicrosoft.com bad-password
+   done
+   ```
+
+   At this point, even using the correct password should fail:
+
+   ```sh
+   ./test-connection.sh user@tenant.onmicrosoft.com <password>
+   ```
+
+   You will have to wait 10 minutes or clear the database to be able to succesfully log in again.
+
 ### Use Redis for persistently caching password hashes
 
-9. It's a good idea to secure your Redis instance with a password (which is not done by default). See [this SO answer](https://stackoverflow.com/a/7548743/5723188) for instructions, or adapt the [`redis.conf`](config/redis/redis.conf) file from this repo.
+10. It's a good idea to secure your Redis instance with a password (which is not done by default). See [this SO answer](https://stackoverflow.com/a/7548743/5723188) for instructions, or adapt the [`redis.conf`](config/redis/redis.conf) file from this repo.
 
-10. Configure the `freeradius-oauth-perl` module to use Redis as a cache, instead of the in-memory RB tree implementation.
+11. Configure the `freeradius-oauth-perl` module to use Redis as a cache, instead of the in-memory RB tree implementation.
 
     This can be done by updating the `module` file (usually located at `/opt/freeradius-oauth2-perl/module` if you've followed the official installation instructions). Replace it with the [variant of the file](config/freeradius-oauth2-perl/module) from this repo, or make the changes yourself:
 
@@ -162,6 +185,25 @@ The configuration described here also adds support for **account lockout** based
     ```
 
     Depending on how you've set up the `freeradius-oauth-perl` module, you might also have to update the corresponding line in the `/etc/freeradius/dictionary` file.
+
+12. Verify that the new caching config works correctly. Restart your FreeRADIUS instance, then try to connect _twice_ using valid credentials:
+
+    ```shell
+    ./test-connection.sh user@tenant.onmicrosoft.com <password>
+    ./test-connection.sh user@tenant.onmicrosoft.com <password>
+    ```
+
+    The second time around, authentication should be nearly instant. You should find some similar log messages (if you're running FreeRADIUS in debug mode):
+
+    ```
+    rlm_redis (redis): Reserved connection (0)
+    (3) oauth2_cache: Found entry for "user@tenant.onmicrosoft.com"
+    (3) oauth2_cache: Merging cache entry into request
+    ...
+    (3) pap: Login attempt with password
+    (3) pap: Comparing with "known-good" SSHA2-512-Password
+    (3) pap: User authenticated successfully
+    ```
 
 ## Contributing
 
