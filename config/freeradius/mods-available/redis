@@ -43,7 +43,7 @@ redis {
 	#
 	#  database:: Select the Redis logical database having the specified zero-based numeric index.
 	#
-#	database = 0
+	database = 0
 
 	#
 	#  port:: Port to connect to
@@ -56,7 +56,7 @@ redis {
 	#
 	#  We recommend using a strong password.
 	#
-#	password = thisisreallysecretandhardtoguess
+	password = pwd
 
 	#
 	#  use_tls:: Use TLS (requires hiredis 1.0+)

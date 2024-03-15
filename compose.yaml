@@ -19,7 +19,12 @@ services:
     volumes:
       - ./config/postgresql/create-database.sh:/docker-entrypoint-initdb.d/create-database.sh:ro
 
+  # It's also possible to set up a highly-available cluster of Redis nodes,
+  # see https://www.merge.dev/blog/how-to-spin-up-redis-cluster-in-docker
   redis:
     image: redis:7.2
     ports:
       - "6379:6379"
+    volumes:
+      - ./config/redis/redis.conf:/etc/redis/redis.conf:ro
+    command: ["redis-server", "/etc/redis/redis.conf"]
