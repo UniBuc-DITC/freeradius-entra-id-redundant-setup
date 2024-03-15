@@ -881,7 +881,7 @@ post-auth {
 	#  After authenticating the user, do another SQL query.
 	#
 	#  See "Authentication Logging Queries" in mods-available/sql
-	-sql
+	# -sql
 
 	#
 	#  Un-comment the following if you want to modify the user's object
@@ -988,7 +988,7 @@ post-auth {
 	#
 	Post-Auth-Type REJECT {
 		# log failed authentications in SQL, too.
-		-sql
+		# -sql
 		attr_filter.access_reject
 
 		# Insert EAP-Failure message if the request was
