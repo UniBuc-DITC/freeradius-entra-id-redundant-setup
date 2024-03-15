@@ -25,9 +25,7 @@ cache oauth2_cache {
 	}
 
 	update {
-		# TODO: get rid of this workaround once https://github.com/FreeRADIUS/freeradius-server/issues/5304 gets fixed
-		# &request:OAuth2-Password-Last-Modified := &control:OAuth2-Password-Last-Modified
-		&request:OAuth2-Password-Last-Modified := "%{exec:/usr/local/bin/unix-timestamp.sh %{&control:OAuth2-Password-Last-Modified}}"
+		&request:OAuth2-Password-Last-Modified := &control:OAuth2-Password-Last-Modified
 		&control:Password-With-Header := &control:Password-With-Header
 	}
 }

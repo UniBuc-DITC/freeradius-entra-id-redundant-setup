@@ -21,7 +21,5 @@ COPY ./config/freeradius-oauth2-perl/ /opt/freeradius-oauth2-perl/
 RUN ln -s /opt/freeradius-oauth2-perl/module /etc/freeradius/mods-enabled/oauth2
 RUN ln -s /opt/freeradius-oauth2-perl/policy /etc/freeradius/policy.d/oauth2
 
-COPY ./config/unix-timestamp.sh /usr/local/bin/unix-timestamp.sh
-
 # Overwrite configuration files with our customized versions
 COPY ./config/freeradius/ /etc/raddb
