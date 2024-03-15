@@ -8,4 +8,5 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
         username text NOT NULL CHECK (username <> ''),
         time timestamptz NOT NULL
     );
+    CREATE INDEX failed_logins_username_index ON failed_logins (username);
 EOSQL
