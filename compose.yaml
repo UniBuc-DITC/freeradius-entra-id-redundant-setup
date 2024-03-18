@@ -1,4 +1,14 @@
 services:
+  nginx:
+    depends_on:
+      - freeradius1
+      - freeradius2
+    image: nginx:1.25
+    ports:
+      - "1812:1812/udp"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
   freeradius1:
     depends_on:
       postgres:
@@ -7,8 +17,6 @@ services:
         condition: service_started
     image: freeradius-entra-id
     build: .
-    ports:
-      - "1812-1813:1812-1813/udp"
     command: freeradius -X
 
   freeradius2:
@@ -18,8 +26,6 @@ services:
       redis:
         condition: service_started
     image: freeradius-entra-id
-    ports:
-      - "2812-2813:1812-1813/udp"
     command: freeradius -X
 
   postgres:

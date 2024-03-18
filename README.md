@@ -205,13 +205,15 @@ The configuration described here also adds support for **account lockout** based
     (3) pap: User authenticated successfully
     ```
 
+It is woth mentioning that Redis has support for **data persistency** and it will (by default) regularly dump its contents to disk. More information can be found [in the Redis documentation](https://redis.io/docs/management/persistence/).
+
 ### Set up multiple FreeRADIUS instances for redundancy
 
-Most Network Access Servers (RADIUS clients) can be configured to send their requests to multiple IP addresses / RADIUS servers. This allows for redundancy in case either one of the instances fails.
+13. One way of ensuring redundancy is to spin up multiple FreeRADIUS instances (with identical configurations) and place them behind a [_load balancer_](https://www.nginx.com/resources/glossary/load-balancing/).
 
-Furthermore, Redis has support for data persistency and it saves regular snapshots of its contents by default. More information can be found [in the Redis documentation](https://redis.io/docs/management/persistence/).
+    The [`compose.yaml`](compose.yaml) file exemplifies the creation of a cluster of two FreeRADIUS instances, both sharing the same database and password cache. Either one can be the target of a RADIUS authentication request.
 
-The [`compose.yaml`](compose.yaml) file exemplifies the creation of a cluster of two FreeRADIUS instances, both sharing the same database and password cache. Either one can be the target of a RADIUS authentication request.
+    We use [NGINX](https://www.nginx.com/) with its [UDP Load Balancing](https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/) feature to ensure the RADIUS requests get distributed to the back end servers in a round-robin fashion. See the [`nginx.conf`](config/nginx/nginx.conf) file for the required settings.
 
 ## Contributing
 
